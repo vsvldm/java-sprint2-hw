@@ -7,8 +7,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         YearlyReport yearlyReport = new YearlyReport();
         ReportGeneration reportGeneration = new ReportGeneration();
-        ArrayList<MonthlyReport> monthlyReports = new ArrayList<>();
-        CompareReports checker = new CompareReports(yearlyReport, monthlyReports);
+        ReportEngine reportEngine = new ReportEngine();
+        ArrayList<MonthlyReport> monthlyReports = reportEngine.monthlyReports;
         CompareReports compareReports = new CompareReports(yearlyReport, monthlyReports);
 
         System.out.println("Вас приветствует Бухгалтерия!");
@@ -16,23 +16,9 @@ public class Main {
             printMenu();
             int command = sc.nextInt();
             if (command == 1) {
-                if (monthlyReports.isEmpty()) {
-                    for (int i = 1; i <= 3; i++) {
-                        MonthlyReport monthlyReport = new MonthlyReport();
-                        monthlyReport.loadMonthlyReport(i, "m.20210" + i + ".csv");
-                        monthlyReports.add(monthlyReport);
-                    }
-                    System.out.println("Файлы считаны!");
-                } else {
-                    System.out.println("Месячные отчеты уже были считаны!");
-                }
+                reportEngine.loadMonthlyReports();
             } else if (command == 2) {
-                if (!yearlyReport.checkedLoadFile) {
-                    yearlyReport.loadYearlyReport("y.2021.csv");
-                    System.out.println("Файлы считаны!");
-                } else {
-                    System.out.println("Годовой отчет уже был считан!");
-                }
+               reportEngine.loadYearlyReports(yearlyReport);
             } else if (command == 3) {
                 reportGeneration.generationCompareReports(yearlyReport, monthlyReports, compareReports);
             } else if (command == 4) {
@@ -46,7 +32,6 @@ public class Main {
                 System.out.println("Такой команды не существует");
             }
         }
-
     }
 
     public static void printMenu() {

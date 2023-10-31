@@ -8,8 +8,6 @@ public class MonthlyReport {
     HashMap<String, Integer> expenses = new HashMap<>();
     public int monthForReport = 0;
 
-    boolean checkedLoadFile = false;
-
     public void loadMonthlyReport(int month, String fileName) {
         monthForReport = month;
         ArrayList<String> lines = fileReader.readFileContents(fileName);
@@ -24,7 +22,6 @@ public class MonthlyReport {
             Transaction transaction = new Transaction(itemName, isExpense, quantity, unitPrice, month);
             transactions.add(transaction);
         }
-        checkedLoadFile = true;
     }
     public void topProfitAndNameProduct(){
         int mostProfit = 0;
